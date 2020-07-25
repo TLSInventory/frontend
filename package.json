@@ -1,5 +1,5 @@
 {
-  "name": "frontend3",
+  "name": "tlsinventory-frontend",
   "version": "0.1.4",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "axios-auth-refresh": "^2.2.7",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
+    "raw-loader": "^4.0.1",
     "vue": "~2.6.11",
     "vue-router": "^3.3.2",
     "vuejs-logger": "^1.5.4",
