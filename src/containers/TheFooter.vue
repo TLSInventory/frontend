@@ -1,7 +1,7 @@
 <template>
   <CFooter :fixed="false">
     <div>
-      <a href="https://github.com/BorysekOndrej/bakalarka-frontend4" target="_blank">TLS Inventory</a>
+      <a href="https://github.com/TLSInventory" target="_blank">TLS Inventory</a>
     </div>
     <div class="ml-2">{{versionTxt}}</div>
     <div class="ml-auto">
