@@ -14,8 +14,24 @@
                 :result="last_scan_json.result"
             ></SSLTLS>
             <hr>
-            <CCard v-if="displayDebugInUI">
-                <pre class="m-0" style="text-align: left;">{{ last_scan_json }}</pre>
+
+            <CCard>
+                <CCardHeader>
+                    <CIcon :content="freeSetVar.cilCode"/> Technical information (even the information not yet shown above)
+                    <div class="card-header-actions">
+                        <CLink
+                                class="card-header-action btn-minimize"
+                                @click="show_technical_info_card=!show_technical_info_card"
+                        >
+                            <CIcon :name="`cil-chevron-${show_technical_info_card ? 'bottom' : 'top'}`"/>
+                        </CLink>
+                    </div>
+                </CCardHeader>
+                <CCollapse :show="show_technical_info_card">
+                    <CCard v-if="show_technical_info_card" style="max-width: 90%; margin: auto;">
+                        <pre class="m-0" style="text-align: left;">{{ last_scan_json }}</pre>
+                    </CCard>
+                </CCollapse>
             </CCard>
         </CCard>
     </div>
@@ -25,10 +41,12 @@ received_certificate_chain_list
     import {callGetResultForTarget} from "../../api";
     import CertificateViewComponent from "./CertificateViewComponent";
     import SSLTLS from "./SSLTLS";
+    import {freeSet} from "@coreui/icons";
 
     export default {
         name: "latestScanResults",
         components: {SSLTLS, CertificateViewComponent},
+        freeSet,
         props: {
             msg: String,
             target_id: {
@@ -39,6 +57,7 @@ received_certificate_chain_list
         data() {
             return {
                 last_scan_json: "Not (yet?) received answer through main path of execution. Still very much WIP.",
+                show_technical_info_card: false,
             }
         },
         mounted(){
@@ -62,6 +81,11 @@ received_certificate_chain_list
                     })
             },
         },
+        computed: {
+            freeSetVar(){
+                return freeSet
+            },
+        }
     }
 </script>
 
