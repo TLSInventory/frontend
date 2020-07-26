@@ -18,6 +18,7 @@
                             type="text"
                             v-model="form.email"
                     ></CInput>
+                    <!--
                     <CInput
                             label="API key"
                             horizontal
@@ -25,6 +26,7 @@
                             type="text"
                             v-model="form.main_api_key"
                     ></CInput>
+                    -->
                 </CForm>
 
             </CCardBody>
