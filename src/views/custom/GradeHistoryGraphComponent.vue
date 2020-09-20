@@ -11,6 +11,7 @@
     import { hexToRgba } from '@coreui/utils/src'
     import moment from "moment";
     import {generalLevelColors} from "../../utils";
+    import {ceil, max, min} from "lodash";
 
     export default {
         name: 'GradeHistoryGraphComponent',
@@ -143,13 +144,17 @@
                 return grade_date_dict_sorted
             },
             maxYScale(){
-                let currentMax = 1
+                // currently the graph stacks all the grade on top of each other, so the A level has height of A+B+C+...
+                // let currentMax = 1
                 let grade_date_dict_sorted = this.preprocessDataFromHistory5
+                let sum_for_max = 0
                 for (const single_grade of this.grades){
-                    currentMax = Math.max(currentMax, Math.max(...grade_date_dict_sorted[single_grade]))
+                    sum_for_max += Math.max(...grade_date_dict_sorted[single_grade])
+                    //currentMax = Math.max(currentMax, Math.max(...grade_date_dict_sorted[single_grade]))
                 }
+
                 //console.warn(currentMax)
-                return currentMax + 1
+                return Math.max(sum_for_max + 2, ceil(sum_for_max*1.1))
             },
             dates() {
                 let res = []
