@@ -27,6 +27,6 @@ module.exports = {
   ],
   devServer: {
     // disableHostCheck: true,
-    public: 'frontend.tlsinventory.test'
+    public: 'bakalarka3.borysek'
   }
 }
