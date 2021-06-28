@@ -9,11 +9,10 @@ import {
     callAddTarget,
     jwtRefreshAccessToken,
     callDeleteTarget,
-    callGetUserTargets,
-    callGetScanResultHistory,
     callGetLogout,
     callGetNotificationSettings,
     callDeleteChannelConnection,
+    getFromAPI,
 } from '../api'
 import {isValidJwt, EventBus, sleep} from '../utils'
 import moment from "moment";
@@ -36,6 +35,10 @@ function initialState() {
         userTargets: [],
         userTargetsLoading: false,
         userTargetsHistory: [],
+        userCertificateChainsLoading: false,
+        userCertificateChains: [],
+        userCertificatesLoading: false,
+        userCertificates: [],
         userTargetsHistoryLoading: false,
         messageForMainBar: "",
         emailConnections: [],
@@ -178,39 +181,41 @@ const actions = {
             })
     },
     syncUserTargetsWithBasicResults(context) {
-        context.commit('set', ["userTargetsLoading", true])
-
-        callGetUserTargets()
-            .then(function (response) {
-                console.log("callGetUserTargets result received", response.data)
-                let original_data = store.getters.getUserTargets
-                if (original_data === response.data) {
-                    console.log("callGetUserTargets refresh returned the same result as was already saved")
-                    return;
-                }
-                context.commit('set', ["userTargets", response.data])
-            })
-            .catch(function (error) {
-                Vue.$log.warn('callGetUserTargets error', error)
-                return Promise.reject(error);
-            })
-            .finally(function () {
-                context.commit('set', ["userTargetsLoading", false])
-            })
+        context.dispatch("loadGeneric", {'url': '/api/v1/get_user_targets', 'storeAttribute': 'userTargets'});
     },
     syncUserTargetsHistory(context) {
-        context.commit('set', ["userTargetsHistoryLoading", true])
+        context.dispatch("loadGeneric", {'url': '/api/v1/scan_result_history', 'storeAttribute': 'userTargetsHistory'});
+    },
+    syncCertificateChains(context) {
+        context.dispatch("loadGeneric", {'url': '/api/v2/history/certificate_chains', 'storeAttribute': 'userCertificateChains'});
+    },
+    syncCertificates(context){
+        context.dispatch("loadGeneric", {'url': '/api/v2/history/certificates', 'storeAttribute': 'userCertificates'});
+    },
+    loadGeneric(context, payload) {
+        let endpointURL = payload["url"];
+        let storeAttribute = payload["storeAttribute"];
 
-        callGetScanResultHistory()
+        // console.warn(endpointURL);
+        // console.warn(storeAttribute);
+
+        context.commit('set', [storeAttribute+"Loading", true])
+
+        getFromAPI(endpointURL)
             .then(function (response) {
-                context.commit('set', ["userTargetsHistory", response.data])
+                let original_data = store.getters[storeAttribute]
+                if (original_data === response.data) {
+                    console.log(storeAttribute+" refresh returned the same result as was already saved. Skipping hooks on_change.")
+                    return;
+                }
+                context.commit('set', [storeAttribute, response.data])
             })
             .catch(function (error) {
-                Vue.$log.warn('syncUserTargetsHistory error', error)
+                Vue.$log.warn('sync '+storeAttribute+' error', error)
                 return Promise.reject(error);
             })
             .finally(function () {
-                context.commit('set', ["userTargetsHistoryLoading", false])
+                context.commit('set', [storeAttribute+"Loading", false])
             })
     },
     syncNotificationConnections(context, target_id) {

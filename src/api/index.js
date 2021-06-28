@@ -60,7 +60,7 @@ function getJwtAccesTokenLocalWrapper() {
 }
 
 
-function getFromAPI(path) {
+export function getFromAPI(path) {
     Vue.$log.debug(`getFromAPI sending request to ${path}\n with access_token ${getJwtAccesTokenLocalWrapper()}`);
     return apiAxios.get(`${API_URL}${path}`,
         {...axios_api_options,
@@ -88,10 +88,6 @@ function deleteToAPI(path) {
 
 export function callAddTarget(data) {
     return postToAPI('/api/v1/add_target', data);
-}
-
-export function callGetUserTargets() {
-    return getFromAPI('/api/v1/get_user_targets');
 }
 
 export function callGetTargetInfoForEditDialog(target_id){
@@ -127,10 +123,6 @@ export function callGetNotificationSettingsRaw(target_id){
 
 export function callPostNotificationSettingsRaw(target_id, data){
     return postToAPI(`/api/v1/notification_settings_raw/${target_id}`, data);
-}
-
-export function callGetScanResultHistory(){
-    return getFromAPI(`/api/v1/scan_result_history`);
 }
 
 export function callGetCertificateTransparency(hostname){
