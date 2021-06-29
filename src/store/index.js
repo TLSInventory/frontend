@@ -184,7 +184,15 @@ const actions = {
         context.dispatch("loadGeneric", {'url': '/api/v1/get_user_targets', 'storeAttribute': 'userTargets'});
     },
     syncUserTargetsHistory(context) {
-        context.dispatch("loadGeneric", {'url': '/api/v1/scan_result_history', 'storeAttribute': 'userTargetsHistory'});
+        // context.dispatch("loadGeneric", {'url': '/api/v1/scan_result_history', 'storeAttribute': 'userTargetsHistory_v1'});
+        context.dispatch("loadGeneric", {'url': '/api/v2/history/scan_results', 'storeAttribute': 'userTargetsHistory'});
+    },
+
+    syncUserScansTimeline(context) {
+        context.dispatch("loadGeneric", {'url': '/api/v2/history/scans_timeline', 'storeAttribute': 'userScansTimeline'});
+    },
+    syncUserScanResultsSimplified(context) {
+        context.dispatch("loadGeneric", {'url': '/history/scan_results_simplified', 'storeAttribute': 'scanResultsSimplified'});
     },
     syncCertificateChains(context) {
         context.dispatch("loadGeneric", {'url': '/api/v2/history/certificate_chains', 'storeAttribute': 'userCertificateChains'});
