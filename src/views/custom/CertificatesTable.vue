@@ -143,8 +143,8 @@
         created() {
             this.$store.dispatch('syncUserTargetsHistory')
             this.$store.dispatch('syncUserTargetsWithBasicResults')
-            this.$store.dispatch('syncCertificateChains')
-            this.$store.dispatch('syncCertificates')
+            // this.$store.dispatch('syncCertificateChains')
+            // this.$store.dispatch('syncCertificates')
 
             // todo: sync also syncUserTargetsHistory
             var self = this;

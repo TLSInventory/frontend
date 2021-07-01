@@ -192,7 +192,7 @@ const actions = {
         context.dispatch("loadGeneric", {'url': '/api/v2/history/scans_timeline', 'storeAttribute': 'userScansTimeline'});
     },
     syncUserScanResultsSimplified(context) {
-        context.dispatch("loadGeneric", {'url': '/history/scan_results_simplified', 'storeAttribute': 'scanResultsSimplified'});
+        context.dispatch("loadGeneric", {'url': '/api/v2/history/scan_results_simplified', 'storeAttribute': 'scanResultsSimplified'});
     },
     syncCertificateChains(context) {
         context.dispatch("loadGeneric", {'url': '/api/v2/history/certificate_chains', 'storeAttribute': 'userCertificateChains'});
