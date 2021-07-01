@@ -1,9 +1,8 @@
 <template>
   <CFooter :fixed="false">
     <div>
-      <a href="https://github.com/TLSInventory" target="_blank">TLS Inventory</a>
+      <a href="https://github.com/TLSInventory" target="_blank">TLS Inventory (Github)</a>
     </div>
-    <div class="ml-2">{{versionTxt}}</div>
     <div class="ml-auto">
       <span class="mr-1"></span>
       Template <a href="https://coreui.io/vue" target="_blank">CoreUI for Vue</a>,
@@ -14,18 +13,7 @@
 </template>
 
 <script>
-import versionFile from '../../version.txt';
 export default {
   name: 'TheFooter',
-  computed: {
-    versionTxt() {
-      let versionString = versionFile
-      let versionArrayOfInts = versionString.toString().split(".").map(Number)
-      if (versionArrayOfInts[0] == 0){
-        return `${versionString} - Warning: Project still in Beta`;
-      }
-      return versionString;
-    },
-  }
 }
 </script>

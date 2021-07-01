@@ -18,6 +18,9 @@
     </CSidebarBrand>
 
     <CRenderFunction flat :content-to-render="$options.nav"/>
+
+    <Version v-if="!minimize" style="text-align: center;"></Version>
+
     <CSidebarMinimizer
       class="d-md-down-none"
       @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
@@ -27,9 +30,11 @@
 
 <script>
 import nav from './_nav'
+import Version from "@/views/Version";
 
 export default {
   name: 'TheSidebar',
+  components: {Version},
   nav,
   computed: {
     show () {
