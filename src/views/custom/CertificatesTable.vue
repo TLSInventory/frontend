@@ -23,9 +23,9 @@
                     :loading="isLoading"
                     :noItemsView="{ noResults: 'No results matching filter.', noItems: 'There are either no active scans or the targets are yet to be scanned or they don\'t supply any certificates.' }"
                 >
-                    <template #minDepthInCertChain="{item}">
+                    <template #minDepthInVerifiedCertChain="{item}">
                         <td>
-                            {{ item.minDepthInCertChain }} {{ (item.minDepthInCertChain === 1)? "(leaf)" : "" }}
+                            {{ item.minDepthInVerifiedCertChain }} {{ (item.minDepthInVerifiedCertChain === 1)? "(leaf)" : "" }}
                         </td>
                     </template>
 
@@ -103,14 +103,14 @@
             if (minDepthForEachCert[uniqProperty] === undefined){
                 minDepthForEachCert[uniqProperty] = Number.MAX_VALUE
             }
-            let minDepthInCertChain = el.minDepthInCertChain || minDepthForEachCert[uniqProperty]
-            minDepthForEachCert[uniqProperty] = Math.min(minDepthInCertChain, minDepthForEachCert[uniqProperty])
+            let minDepthInVerifiedCertChain = el.minDepthInVerifiedCertChain || minDepthForEachCert[uniqProperty]
+            minDepthForEachCert[uniqProperty] = Math.min(minDepthInVerifiedCertChain, minDepthForEachCert[uniqProperty])
 
             return !thisAlreadySeen;
         });
 
         for (const singleRes of deduplicatedRes){
-            singleRes.minDepthInCertChain = minDepthForEachCert[singleRes.thumbprint_sha256]
+            singleRes.minDepthInVerifiedCertChain = minDepthForEachCert[singleRes.thumbprint_sha256]
         }
 
         // console.warn(minDepthForEachCert)
@@ -127,7 +127,7 @@
                 default () {
                     return ['subject', 'notBefore', 'notAfter', 'subject_alternative_name_list',
                         'numberOfActiveDeployments', 'numberOfActiveNotTrustedDeployments',
-                        {key: 'minDepthInCertChain', label: 'Min Depth In Verified Cert Chain'},
+                        {key: 'minDepthInVerifiedCertChain', label: 'Min Depth In Verified Cert Chain'},
                         {key: 'thumbprint_sha256', label: 'SHA-256'},
                         {key:'actions', filter: false, sorter: false}]
                 }
@@ -167,7 +167,7 @@
                         for (const verified_cert_chain of single_target.result_simplified.verified_certificate_chains_list) {
                             let currentDepth = 1 // this can't be zero, because elsewere I'm using `currentDepth || Number.MAX_VALUE`
                             for (const verified_cert of verified_cert_chain.certificate_chain) {
-                                let modified_cert = Object.assign(verified_cert, {"minDepthInCertChain": currentDepth})
+                                let modified_cert = Object.assign(verified_cert, {"minDepthInVerifiedCertChain": currentDepth})
                                 current_res.push(modified_cert)
                                 currentDepth += 1
                             }
@@ -236,8 +236,8 @@
                         }
                     }
 
-                    if (obj.minDepthInCertChain === Number.MAX_VALUE){
-                        obj.minDepthInCertChain = "Not part of any verified chain"
+                    if (obj.minDepthInVerifiedCertChain === Number.MAX_VALUE){
+                        obj.minDepthInVerifiedCertChain = "Not part of any verified chain"
                     }
                 });
 
