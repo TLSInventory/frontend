@@ -165,7 +165,8 @@
                     return [
                       'hostname', 'port', {key: 'ip_address', label: 'IP address'}, 'protocol',
                       'grade', 'expires',
-                      'active', 'subdomain_monitoring',
+                      'active',
+                      {key:'subdomain_monitoring', filter: false, sorter: false},
                       {key:'actions', filter: false, sorter: false}
                     ]
                 }
