@@ -49,7 +49,7 @@
                     </template>
 
                     <template #subdomain_monitoring="{item}">
-                      <td style="padding-top: 0px; padding-bottom: 0px; vertical-align: middle;">
+                      <td class="button_only_td">
                         <CButton v-if="isMonitoringEnabled(item)"
                                  color="success"
                                  class="btn-mi"
@@ -280,5 +280,6 @@
         min-width: 155px;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
+        vertical-align: middle;
     }
 </style>
