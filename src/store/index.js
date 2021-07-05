@@ -32,14 +32,22 @@ function initialState() {
         jwt: '',
         jwtLastRefreshStatus: JwtStatus.Valid,
         jwtLastRefreshRequestTimestamp: null,
+
         userTargets: [],
         userTargetsLoading: false,
+
         userTargetsHistory: [],
+        userTargetsHistoryLoading: false,
+
         userCertificateChainsLoading: false,
         userCertificateChains: [],
+
         userCertificatesLoading: false,
         userCertificates: [],
-        userTargetsHistoryLoading: false,
+
+        userTLDMonitoring: [],
+        userTLDMonitoringLoading: false,
+
         messageForMainBar: "",
         emailConnections: [],
         slackConnections: [],
@@ -199,6 +207,9 @@ const actions = {
     },
     syncCertificates(context){
         context.dispatch("loadGeneric", {'url': '/api/v2/history/certificates', 'storeAttribute': 'userCertificates'});
+    },
+    syncTLDMonitoringList(context){
+        context.dispatch("loadGeneric", {'url': '/api/v1/subdomain_monitoring/list', 'storeAttribute': 'userTLDMonitoring'});
     },
     loadGeneric(context, payload) {
         let endpointURL = payload["url"];

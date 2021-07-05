@@ -48,6 +48,23 @@
                         </td>
                     </template>
 
+                    <template #subdomain_monitoring="{item}">
+                      <td style="padding-top: 0px; padding-bottom: 0px; vertical-align: middle;">
+                        <CButton v-if="isMonitoringEnabled(item)"
+                                 color="success"
+                                 class="btn-mi"
+                                 v-on:click="disableMonitoring(item)"
+                                 v-c-tooltip="{content: 'Disable subdomain monitoring (and automatic addition)'}"
+                        ><CIcon :content="freeSetVar.cilCheckCircle"/></CButton>
+                        <CButton v-if="!isMonitoringEnabled(item)"
+                            color="danger"
+                            class="btn-mi"
+                            v-on:click="enableMonitoring(item)"
+                            v-c-tooltip="{content: 'Enable subdomain monitoring (and automatic addition)'}"
+                        ><CIcon name="cil-ban"/></CButton>
+                      </td>
+                    </template>
+
                     <template #actions="{item}">
                         <td class="button_only_td">
                             <!-- The whole row could be clickable, but that would make the copying values for difficult.-->
@@ -131,7 +148,12 @@
     import LatestScanResults from "./LatestScanResults";
     import {filterObjToTargetDefinition, EventBus} from "../../utils";
     import { freeSet } from '@coreui/icons'
-    import {callGetReenableTarget, callGetSSLyzeEnqueueNow} from "../../api";
+    import {
+      callGetReenableTarget,
+      callGetSSLyzeEnqueueNow,
+      callSubdomainMonitoringDisable,
+      callSubdomainMonitoringEnable
+    } from "../../api";
 
     export default {
         name: 'TargetsTableComponent',
@@ -140,7 +162,12 @@
             fields: {
                 type: Array,
                 default () {
-                    return ['hostname', 'port', {key: 'ip_address', label: 'IP address'}, 'protocol', 'grade', 'expires', 'active', {key:'actions', filter: false, sorter: false}]
+                    return [
+                      'hostname', 'port', {key: 'ip_address', label: 'IP address'}, 'protocol',
+                      'grade', 'expires',
+                      'active', 'subdomain_monitoring',
+                      {key:'actions', filter: false, sorter: false}
+                    ]
                 }
             },
             limit_to_ids: {
@@ -162,11 +189,13 @@
             }
         },
         created() {
-            this.$store.dispatch('syncUserTargetsWithBasicResults')
+            this.$store.dispatch('syncUserTargetsWithBasicResults');
+            this.$store.dispatch('syncTLDMonitoringList');
 
             let self = this;
             EventBus.$on('users-targets-modified', () => {
-                self.$store.dispatch('syncUserTargetsWithBasicResults')
+                self.$store.dispatch('syncUserTargetsWithBasicResults');
+                self.$store.dispatch('syncTLDMonitoringList');
             });
         },
         computed: {
@@ -182,6 +211,9 @@
             },
             userTargetsLoading() {
                 return this.$store.state.userTargetsLoading
+            },
+            enabledMonitorings() {
+              return this.$store.state.userTLDMonitoring
             },
             freeSetVar(){
                 return freeSet
@@ -202,6 +234,20 @@
             show_latest_scan_result(row){
                 this.latestScanResultsData = row.id;
                 this.latestScanResultsVisible = true;
+            },
+            isMonitoringEnabled(row){
+              let a = this.enabledMonitorings.find(x => x.subdomain_scan_target_id == row.id);
+              return a !== undefined;
+            },
+            enableMonitoring(row){
+              callSubdomainMonitoringEnable(row.id).then(() => {
+                this.$store.dispatch('syncTLDMonitoringList');
+              });
+            },
+            disableMonitoring(row){
+              callSubdomainMonitoringDisable(row.id).then(() => {
+                this.$store.dispatch('syncTLDMonitoringList');
+              });
             },
             edit_target(row){
                 console.log("edit_target", {...row});

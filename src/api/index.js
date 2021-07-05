@@ -157,3 +157,11 @@ export function callPostChangePassword(payload){
 export function callGetUserProfile(){
     return getFromAPI(`/api/v1/user`);
 }
+
+export function callSubdomainMonitoringEnable(target_id){
+    return postToAPI(`/api/v1/subdomain_monitoring/${target_id}`);
+}
+
+export function callSubdomainMonitoringDisable(target_id){
+    return deleteToAPI(`/api/v1/subdomain_monitoring/${target_id}`);
+}
