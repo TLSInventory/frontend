@@ -52,7 +52,7 @@
             body-wrapper
           >
             <h2>Sign up</h2>
-            <p>Do you want to get notification before the certificates on you site expire?</p>
+            <p style="max-width: 500px;">Do you want to get notification before the certificates on you site expire? Monitor many domains and also automatically any new subdomains?</p>
             <router-link to="/register" tag="span" >
             <CButton
               color="secondary"

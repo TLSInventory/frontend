@@ -45,6 +45,14 @@
                   <template #prepend-content><CIcon name="cil-lock-locked"/></template>
                 </CInput>
 
+                <CInputCheckbox
+                    :checked.sync="form.privacy_policy"
+                    :inline="true"
+                    label="I've understood and agree to the "
+                ></CInputCheckbox> <PrivacyPolicyModal></PrivacyPolicyModal>
+
+                <br>
+
                 <CAlert show color="warning" v-if="errorMsg" >{{errorMsg}}</CAlert>
 
                 <CButton color="success" block :disabled="disable_submit_button" v-on:click="register">Create Account</CButton>
@@ -60,10 +68,12 @@
 <script>
 import { EventBus } from '@/utils'
 import {password_validator_util} from "../../utils";
+import PrivacyPolicyModal from "@/views/custom/PrivacyPolicyModal";
 // import {required, minLength, sameAs, email} from "vuelidate/lib/validators";
 
 export default {
   name: 'Register',
+  components: {PrivacyPolicyModal},
   data () {
     return {
       form: {
@@ -71,6 +81,7 @@ export default {
         email: '',
         password: '',
         password_again: '',
+        privacy_policy: false,
       },
       errorMsg: ''
     }
@@ -95,6 +106,7 @@ export default {
   computed: {
     disable_submit_button: function () {
       let a = ( Boolean(this.form.username && this.form.email && this.form.password && this.form.password_again &&
+              this.form.privacy_policy &&
               this.password_validator() && this.password_compare() && this.email_validator()))
       let b = !a
       console.log(b); // todo: this returns correct value, but doesn't disable as I've expected
