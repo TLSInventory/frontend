@@ -223,6 +223,7 @@
         methods: {
             getBadge (status) {
                 switch (status) {
+                    case 'A_plus': return 'success';
                     case 'A': return 'success';
                     case 'B': return 'secondary';
                     case 'C': return 'warning';
