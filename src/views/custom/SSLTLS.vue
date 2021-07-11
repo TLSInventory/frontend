@@ -17,7 +17,7 @@
             <td>{{result.sslv3.accepted_cipher_list.length}}</td>
         </tr>
         <tr>
-            <th scope="row">TLS 1</th>
+            <th scope="row">TLS 1.0</th>
             <td>{{result.tlsv1.accepted_cipher_list.length}}</td>
         </tr>
         <tr>
