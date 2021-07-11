@@ -1,7 +1,16 @@
 <template>
     <div>
         <h1>{{ msg }}</h1>
+
+        <CCard bodyWrapper v-if="simplified_result && simplified_result.grade_reasons">
+          <h3>Grade caps applied</h3>
+          <CAlert color="primary" v-for="item in simplified_result.grade_reasons.split(', ')" :key="item.message">
+            {{ item }}
+          </CAlert>
+        </CCard>
+
         <CCard v-if="last_scan_json.result">
+            <h3>Information about certificates</h3>
             <div v-for="x in last_scan_json.result.certificate_information.received_certificate_chain_list.certificate_chain">
                 <CertificateViewComponent
                     :certificate="x"
@@ -10,6 +19,8 @@
                 <hr>
             </div>
             <hr>
+
+            <h3>Basic information about SSL/TLS support</h3>
             <SSLTLS
                 :result="last_scan_json.result"
             ></SSLTLS>
@@ -82,6 +93,20 @@ received_certificate_chain_list
             },
         },
         computed: {
+            simplified_result () {
+              if (this.target_id === null || this.target_id < 0){
+                return null;
+              }
+              let self = this
+              let res = this.$store.getters.getUserTargets.filter(function(x) {
+                return self.target_id === x.id;
+              });
+              if (res.empty) {
+                console.warn("No simplified result for target?")
+                return null;
+              }
+              return res[0]
+            },
             freeSetVar(){
                 return freeSet
             },
@@ -93,6 +118,8 @@ received_certificate_chain_list
 <style scoped>
     h3 {
         margin: 40px 0 0;
+        text-align: center;
+        padding-bottom: 30px;
     }
     ul {
         list-style-type: none;

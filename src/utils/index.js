@@ -165,3 +165,11 @@ export function highlight_style_if_current_date_outside_of_range(params){
     }
     return {}
 }
+
+export function format_grade_reasons(reasons_str){
+    if (reasons_str === undefined){
+        return "";
+    }
+    return reasons_str.replace(", ", "\n");
+}
+
