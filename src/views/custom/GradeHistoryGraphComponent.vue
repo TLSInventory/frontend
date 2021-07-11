@@ -10,7 +10,7 @@
     import { CChartLine } from '@coreui/vue-chartjs'
     import { hexToRgba } from '@coreui/utils/src'
     import moment from "moment";
-    import {generalLevelColors} from "../../utils";
+    import {generalLevelColors, known_grades} from "../../utils";
     import {ceil, max, min} from "lodash";
 
     export default {
@@ -27,7 +27,7 @@
             },
             grades: {
                 default () {
-                    return ["A", "B", "C", "D", "E", "F", "Not scanned yet"]
+                    return known_grades();
                 }
             }
         },

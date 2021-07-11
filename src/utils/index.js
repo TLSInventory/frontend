@@ -5,6 +5,7 @@ import Vue from 'vue'
 import moment from "moment";
 import _ from "lodash"
 import {getColor} from "@coreui/utils/src";
+var assert = require('assert');
 
 export const EventBus = new Vue()
 const target_properties = ['id', 'hostname', 'port', 'ip_address', 'protocol']
@@ -126,17 +127,25 @@ export function testCertificate(){
     }
 }
 
+export function known_grades(){
+    return ["A_plus", "A", "B", "C", "D", "E", "F", "T", "Not scanned yet"]
+}
+
 export function generalLevelColors(){
     return [
+        '#639B4B', // A_plus
         '#639B4B', // A
         '#8AC271', // B
         '#F6B26B', // C
         '#E4834C', // D
         '#DD624E', // E
         '#CC0000', // F
+        '#CC0000', // T
         '#CED2D8', // Not scanned yet
     ]
 }
+
+assert(known_grades().length === generalLevelColors().length, "The number of known grades and their colors doesn't match.");
 
 export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
