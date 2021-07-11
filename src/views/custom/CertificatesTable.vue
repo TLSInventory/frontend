@@ -35,12 +35,12 @@
                         </td>
                     </template>
                     <template #notBefore="{item}">
-                        <td v-bind:style="getStyleIfOutsideRange({ notBefore: date_to_moment(item.notBefore) })">
+                        <td v-bind:style="highlight_style_if_current_date_outside_of_range({ notBefore: date_to_moment(item.notBefore) })">
                             {{ date_to_string(item.notBefore) }}
                         </td>
                     </template>
                     <template #notAfter="{item}">
-                        <td v-bind:style="getStyleIfOutsideRange({ notAfter: date_to_moment(item.notAfter) } )">
+                        <td v-bind:style="highlight_style_if_current_date_outside_of_range({ notAfter: date_to_moment(item.notAfter) } )">
                             {{ date_to_string(item.notAfter) }}
                         </td>
                     </template>
@@ -83,7 +83,12 @@
 </template>
 
 <script>
-    import {EventBus, filterObjToTargetDefinition} from "../../utils";
+import {
+  date_to_moment,
+  EventBus,
+  filterObjToTargetDefinition,
+  highlight_style_if_current_date_outside_of_range
+} from "../../utils";
     import moment from "moment";
     import { freeSet } from '@coreui/icons'
     import _ from "lodash"
@@ -137,7 +142,10 @@
             return {
                 caption: 'List of your certificates',
                 showCertificateDetails: false,
-                currentCertDetails: {}
+                currentCertDetails: {},
+
+                // imported functions. Todo: rework using mixins?
+                highlight_style_if_current_date_outside_of_range, date_to_moment,
             }
         },
         created() {
@@ -257,9 +265,6 @@
             }
         },
         methods: {
-            date_to_moment(date){
-                return moment(date, moment.ISO_8601)
-            },
             date_to_string(date){
                 return this.date_to_moment(date).format('YYYY-MM-DD hh:mm:ss');
             },
@@ -281,18 +286,6 @@
                 }
                 this.$router.push({ name: 'List of targets', params: { target_id: arrOfIDsUsingCert.join(",") } })
             },
-            getStyleIfOutsideRange(params){
-                if (params.date === undefined){
-                    params.date = moment()
-                }
-                if (
-                    (params.notBefore && params.date < params.notBefore) ||
-                    (params.notAfter && params.date > params.notAfter)
-                ){
-                    return { color: getColor("warning") }
-                }
-                return {}
-            }
         }
     }
 </script>

@@ -4,6 +4,7 @@
 import Vue from 'vue'
 import moment from "moment";
 import _ from "lodash"
+import {getColor} from "@coreui/utils/src";
 
 export const EventBus = new Vue()
 const target_properties = ['id', 'hostname', 'port', 'ip_address', 'protocol']
@@ -146,4 +147,21 @@ export function default_notifications_settings(){
 
 export function password_validator_util(password){
     return password ? password.length >= requiredPasswordLen : undefined;
+}
+
+export function date_to_moment(date){
+    return moment(date, moment.ISO_8601)
+}
+
+export function highlight_style_if_current_date_outside_of_range(params){
+    if (params.date === undefined){
+        params.date = moment()
+    }
+    if (
+        (params.notBefore && params.date < params.notBefore) ||
+        (params.notAfter && params.date > params.notAfter)
+    ){
+        return { color: getColor("warning") }
+    }
+    return {}
 }

@@ -48,6 +48,12 @@
                         </td>
                     </template>
 
+                  <template #expires="{item}">
+                    <td v-bind:style="highlight_style_if_current_date_outside_of_range({ notAfter: date_to_moment(item.expires) } )">
+                      {{ item.expires }}
+                    </td>
+                  </template>
+
                     <template #subdomain_monitoring="{item}">
                       <td class="button_only_td">
                         <CButton v-if="isMonitoringEnabled(item)"
@@ -146,7 +152,7 @@
 <script>
     import AddTargetComponent from "./AddTargetComponent";
     import LatestScanResults from "./LatestScanResults";
-    import {filterObjToTargetDefinition, EventBus} from "../../utils";
+    import {filterObjToTargetDefinition, EventBus, date_to_moment, highlight_style_if_current_date_outside_of_range} from "../../utils";
     import { freeSet } from '@coreui/icons'
     import {
       callGetReenableTarget,
@@ -187,6 +193,9 @@
                 targetToEdit: null,
                 colFilter: { active: 'yes' },
                 respectLimitToIDs: true,
+
+                // imported functions. Todo: rework using mixins?
+                highlight_style_if_current_date_outside_of_range, date_to_moment,
             }
         },
         created() {
@@ -267,7 +276,8 @@
             },
             toggle_ids_filtering(){
                 this.respectLimitToIDs = !this.respectLimitToIDs
-            }
+            },
+
         }
     }
 </script>
