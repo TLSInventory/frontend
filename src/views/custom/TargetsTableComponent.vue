@@ -35,7 +35,7 @@
                 >
                     <template #grade="{item}">
                         <td style="padding-top: 0px; padding-bottom: 0px; vertical-align: middle;">
-                            <h3><CBadge :color="getBadge(item.grade)">{{item.grade}}</CBadge></h3>
+                            <h3><CBadge :color="getBadge(item.grade)" :title="format_grade_reasons(item.grade_reasons)">{{item.grade}}</CBadge></h3>
                         </td>
                     </template>
 
@@ -277,6 +277,12 @@
             toggle_ids_filtering(){
                 this.respectLimitToIDs = !this.respectLimitToIDs
             },
+            format_grade_reasons(reasons_str){
+              if (reasons_str === undefined){
+                return "";
+              }
+              return reasons_str.replace(", ", "\n");
+            }
 
         }
     }
