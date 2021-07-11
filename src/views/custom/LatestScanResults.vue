@@ -7,6 +7,11 @@
           <CAlert color="primary" v-for="item in simplified_result.grade_reasons.split(', ')" :key="item.message">
             {{ item }}
           </CAlert>
+
+          <span style="text-align: center; width: 100%; display: inline-block;">
+            <i>Grade is only a helper indicator and does not reflect the security perfectly. For more complete picture check the scan results themselves.</i><br>
+            <i>Grading is mostly <a href="https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide" target="_blank">compatible with SSLabs</a> (which is essentially industry standard), but does not match it perfectly either.</i>
+          </span>
         </CCard>
 
         <CCard v-if="last_scan_json.result">
