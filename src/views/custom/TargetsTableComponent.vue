@@ -236,10 +236,15 @@
                     case 'A': return 'success';
                     case 'B': return 'secondary';
                     case 'C': return 'warning';
+
                     case 'D':
-                    case 'E': return 'danger';
+                    case 'E':
+                    case 'T':
+                      return 'danger';
+
                     case 'Not scanned yet':
-                    default: return 'secondary'
+                    default:
+                      return 'secondary';
                 }
             },
             show_latest_scan_result(row){
