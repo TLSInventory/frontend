@@ -152,7 +152,13 @@
 <script>
     import AddTargetComponent from "./AddTargetComponent";
     import LatestScanResults from "./LatestScanResults";
-    import {filterObjToTargetDefinition, EventBus, date_to_moment, highlight_style_if_current_date_outside_of_range} from "../../utils";
+    import {
+      filterObjToTargetDefinition,
+      EventBus,
+      date_to_moment,
+      highlight_style_if_current_date_outside_of_range,
+      format_grade_reasons
+    } from "../../utils";
     import { freeSet } from '@coreui/icons'
     import {
       callGetReenableTarget,
@@ -195,7 +201,7 @@
                 respectLimitToIDs: true,
 
                 // imported functions. Todo: rework using mixins?
-                highlight_style_if_current_date_outside_of_range, date_to_moment,
+                highlight_style_if_current_date_outside_of_range, date_to_moment, format_grade_reasons
             }
         },
         created() {
@@ -282,13 +288,6 @@
             toggle_ids_filtering(){
                 this.respectLimitToIDs = !this.respectLimitToIDs
             },
-            format_grade_reasons(reasons_str){
-              if (reasons_str === undefined){
-                return "";
-              }
-              return reasons_str.replace(", ", "\n");
-            }
-
         }
     }
 </script>

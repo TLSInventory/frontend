@@ -170,6 +170,6 @@ export function format_grade_reasons(reasons_str){
     if (reasons_str === undefined){
         return "";
     }
-    return reasons_str.replace(", ", "\n");
+    return reasons_str.replaceAll(", ", "\n");
 }
 
