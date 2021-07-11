@@ -7,7 +7,7 @@
 
 <script>
     import {CChartDoughnut} from "@coreui/vue-chartjs";
-    import {expiresToGradeIndex, generalLevelColors} from "../../utils";
+    import {expirationLevelColors, expiresToColorIndex} from "../../utils";
 
     export default {
         name: "ExpirationDonutComponent",
@@ -27,7 +27,7 @@
                     res[i] = 0;
                 }
                 for (const x of this.userTargets){
-                    let gradeIndex = expiresToGradeIndex(x.expires, this.expirationLevelsNumbericalThresholds)
+                    let gradeIndex = expiresToColorIndex(x.expires, this.expirationLevelsNumbericalThresholds)
                     res[gradeIndex]++
                 }
                 return res
@@ -57,7 +57,7 @@
                 return res
             },
             levelColors(){
-                return generalLevelColors()
+                return expirationLevelColors();
             }
         }
     }

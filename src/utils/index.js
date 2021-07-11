@@ -73,11 +73,11 @@ export function filterObjToTargetDefinition(obj, merge_with_default=false){
 }
 
 
-export function expiresToGradeIndex(expires_string, expiration_levels) {
+export function expiresToColorIndex(expires_string, expiration_levels) {
     if (expires_string === "Not scanned yet"){
         return 6;
     }
-    console.log(expires_string)
+    // console.log(expires_string)
     let expires_moment = moment(expires_string, moment.ISO_8601)
     let today_moment = moment()
     let day_diff = expires_moment.diff(today_moment, 'days')
@@ -91,6 +91,19 @@ export function expiresToGradeIndex(expires_string, expiration_levels) {
     }
     return 5
 }
+
+export function expirationLevelColors(){
+    return [
+        '#639B4B', // A
+        '#8AC271', // B
+        '#F6B26B', // C
+        '#E4834C', // D
+        '#DD624E', // E
+        '#CC0000', // F
+        '#CED2D8', // Not scanned yet
+    ]
+}
+
 
 
 export function testCertificate(){
