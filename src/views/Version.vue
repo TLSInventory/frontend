@@ -1,5 +1,5 @@
 <template>
-    <div class="ml-2" :style="{ color : versionColor }">{{versionText}}</div>
+    <div class="ml-2" :style="{ color : 'black' }"> Version {{versionString}}</div>
 </template>
 
 <script>
